@@ -39,11 +39,10 @@ sudo docker push atsigncompany/at_swarm_load
 it can then be installed and run on Swarm nodes with:
 
 ```
-sudo docker run -d atsigncompany/at_swarm_load
+sudo docker run -d --restart unless-stopped atsigncompany/at_swarm_load
 ```
 
 TODO - automate Docker build and push with an Action.
-TODO - ensure that the container still runs after restart
 
 ## Maintainers
 
