@@ -3,8 +3,19 @@ from google.api import label_pb2 as ga_label
 from google.api import metric_pb2 as ga_metric
 from google.cloud import monitoring_v3
 
+import requests
+metadata_server = "http://metadata/computeMetadata/v1/"
+metadata_flavor = {'Metadata-Flavor' : 'Google'}
+#gce_id = requests.get(metadata_server + 'instance/id', headers = metadata_flavor).text
+gce_name = requests.get(metadata_server + 'instance/hostname', headers = metadata_flavor).text
+gce_project = requests.get(metadata_server + 'project/project-id', headers = metadata_flavor).text
+split_gce_name=gce_name.split(".",2)
+
 client = monitoring_v3.MetricServiceClient()
-project_name = f"projects/development-305719"
+project_id = gce_project
+project_name = f"projects/{project_id}"
+
+client = monitoring_v3.MetricServiceClient()
 descriptor = ga_metric.MetricDescriptor()
 descriptor.type = "custom.googleapis.com/at_swarm_node_load"
 descriptor.metric_kind = ga_metric.MetricDescriptor.MetricKind.GAUGE
