@@ -1,0 +1,14 @@
+[Unit]
+Description=Send custom metrics to GCP
+After=network-online.target
+
+[Service]
+User=ubuntu
+Type=simple
+Restart=on-failure
+RestartSec=3
+WorkingDirectory=/home/ubuntu/python_monitoring
+ExecStart=/home/ubuntu/python_monitoring/aws_send_data.py
+
+[Install]
+WantedBy=multi-user.target
