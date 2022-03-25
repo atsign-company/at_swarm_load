@@ -4,16 +4,17 @@ from google.cloud import monitoring_v3
 import time
 import os
 import shutil
-import requests
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "aws-metrics.json"
-
-client = monitoring_v3.MetricServiceClient()
-project_id = "development-305719"
-project_name = f"projects/{project_id}"
+import json
 
 hostname = os.uname()[1]
+keyfile = "aws-metrics.json"
 zone = "us-central1-a"
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = keyfile
+
+client = monitoring_v3.MetricServiceClient()
+project_id = json.load(open(keyfile))['project_id']
+project_name = f"projects/{project_id}"
 
 load_series = monitoring_v3.TimeSeries()
 load_series.metric.type = "custom.googleapis.com/at_swarm_node_load"
