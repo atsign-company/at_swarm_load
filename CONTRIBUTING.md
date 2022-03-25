@@ -30,13 +30,13 @@ describe.
 
 To prepare your dedicated GitHub repository:
 
-1. Fork in GitHub https://github.com/atsign-foundation/at_swarm_load
+1. Fork in GitHub https://github.com/atsign-company/at_swarm_load
 2. Clone *your forked repository* (e.g., `git clone git@github.com:yourname/at_swarm_load`)
 3. Set your remotes as follows:
 
    ```sh
    cd at_swarm_load
-   git remote add upstream git@github.com:atsign-foundation/at_swarm_load.git
+   git remote add upstream git@github.com:atsign-company/at_swarm_load.git
    git remote set-url upstream --push DISABLED
    ```
 
@@ -45,7 +45,7 @@ To prepare your dedicated GitHub repository:
    ```text
    origin  git@github.com:yourname/at_swarm_load.git (fetch)
    origin  git@github.com:yourname/at_swarm_load.git (push)
-   upstream        git@github.com:atsign-foundation/at_swarm_load.git (fetch)
+   upstream        git@github.com:atsign-company/at_swarm_load.git (fetch)
    upstream        DISABLED (push)
    ```
 
