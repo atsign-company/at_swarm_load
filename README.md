@@ -4,14 +4,16 @@
 
 # At_Swarm_Load
 
-Source files for Docker image used to send GCE Custom metrics for 5m load average.
+Source files for Docker image used to send GCE Custom metrics for 5m load
+average and root volume utilisation.
 
 ## Why, What, How?
 
 ### Why?
 
-We want to have load average on the monitoring dashboard, but the Google
-Agent sends too much data, and Flatcar doesn't support it anyway.
+We want to have load average and disk utilisation on the monitoring
+dashboard, but the Google Ops Agent sends too much data, and Flatcar
+doesn't support it anyway.
 
 ### What?
 
@@ -43,6 +45,29 @@ sudo docker run -d --restart unless-stopped atsigncompany/at_swarm_load
 ```
 
 TODO - automate Docker build and push with an Action.
+
+### AWS
+
+A version has also been created for AWS VMs. It needs a service account key
+as a .json file to replace the placeholder.
+
+First install dependencies:
+
+```bash
+sudo apt install python3-pip
+pip3 install --no-cache-dir google-cloud-monitoring
+```
+
+Then copy over the files in the aws directory to their respective places on
+the Ubuntu VM filesystem. `sudo` will be needed to copy the systemd service
+definition into place.
+
+Finally enable and start the service:
+
+```bash
+sudo systemctl enable gcp-mon.service
+sudo systemctl start gcp-mon.service
+```
 
 ## Maintainers
 
