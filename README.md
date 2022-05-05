@@ -44,8 +44,6 @@ it can then be installed and run on Swarm nodes with:
 sudo docker run -d --restart unless-stopped atsigncompany/at_swarm_load
 ```
 
-TODO - automate Docker build and push with an Action.
-
 ### AWS
 
 A version has also been created for AWS VMs. It needs a service account key
