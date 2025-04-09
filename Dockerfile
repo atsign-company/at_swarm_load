@@ -1,4 +1,4 @@
-FROM python:3.13.2-slim
+FROM python:3.14.0a7-slim
 
 WORKDIR /usr/src/app
 
