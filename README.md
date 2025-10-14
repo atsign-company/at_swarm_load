@@ -1,4 +1,6 @@
-<img width=250px src="https://atsign.dev/assets/img/atPlatform_logo_gray.svg?sanitize=true">
+<a href="https://atsign.com#gh-light-mode-only"><img width=250px src="https://atsign.com/wp-content/uploads/2022/05/atsign-logo-horizontal-color2022.svg#gh-light-mode-only" alt="The Atsign Foundation"></a><a href="https://atsign.com#gh-dark-mode-only"><img width=250px src="https://atsign.com/wp-content/uploads/2023/08/atsign-logo-horizontal-reverse2022-Color.svg#gh-dark-mode-only" alt="The Atsign Foundation"></a>
+
+[![SLSA 3](https://slsa.dev/images/gh-badge-level3.svg)](https://slsa.dev)
 
 # At_Swarm_Load
 
@@ -65,6 +67,33 @@ sudo systemctl enable gcp-mon.service
 sudo systemctl start gcp-mon.service
 ```
 
+## SLSA
+
+The Docker images created from this repo have SLSA Build Level 3 attestations.
+
+These can be verified using the
+[slsa-verifier](https://github.com/slsa-framework/slsa-verifier) tool e.g.:
+
+```sh
+IMAGE="atsigncompany/at_swarm_load:latest"
+SHA=$(docker buildx imagetools inspect ${IMAGE} \
+  --format "{{json .Manifest}}" | jq -r .digest)
+slsa-verifier verify-image ${IMAGE}@${SHA} \
+  --source-uri github.com/atsign-company/at_swarm_load
+```
+
+## Docker image signing
+
+This images from this repo are signed during the build process so that you
+can verify their authenticity using
+[cosign](https://github.com/sigstore/cosign):
+
+```sh
+cosign verify atsigncompany/at_swarm_load:latest \
+--certificate-oidc-issuer=https://token.actions.githubusercontent.com \
+--certificate-identity-regexp='^https://github.com/atsign-company/at_swarm_load/.+'
+```
+
 ## Maintainers
 
-Created by @cpswan
+Created by [@cpswan](https://github.com/cpswan)
