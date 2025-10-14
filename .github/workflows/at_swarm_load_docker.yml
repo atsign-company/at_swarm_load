@@ -10,8 +10,13 @@ permissions:
   contents: read
 
 jobs:
-  build_multi_arch_images:
+  build_image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # for creating OIDC tokens for signing.
+    outputs:
+      digest: ${{ steps.docker_build.outputs.digest }}
     steps:
       - name: Check out code
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
@@ -51,3 +56,17 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: |
             linux/amd64
+
+  slsa_provenance:
+    needs: [build_image]
+    permissions:
+      actions: read # for detecting the Github Actions environment.
+      id-token: write # for creating OIDC tokens for signing.
+      packages: write # for uploading attestations.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0
+    with:
+      image: "atsigncompany/at_swarm_load"
+      digest: ${{ needs.build_image.outputs.digest }}
+    secrets:
+      registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+      registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
